@@ -1,29 +1,35 @@
-# Sublimigal
+# Sublimagal
 
-## Embed ASCII Text in PNG Images Like, Super Easily
+## Embed ASCII Text in PNG Images
 
-Alright, listen up – I may have had a bit to drink, but I made this thing 
-after I had an idea (probably while also drinking).
+This is a Python utility for secreting text in the least-significant bits of PNG files. It works by encoding the length of the message and the message itself in the last bit of the red channel of each pixel, sequentially from the top left pixel of the image in horizontal scan lines.
 
-Let's hide secret messages inside PNG files without telling anyone (shhhhh).
+Currently the only dependency is [Pillow](https://python-pillow.org/)
 
-TODO: Make this a CLI thingy
+Future plans are:
 
-Get yourself set up, fool:
+  * use all four (r, g, b, a) channels, as the current maximum message size is ((w * h) / 8) - 16 bytes.
+  * make into a bash-usable command
+  * package on pypi
+  
+Current usage requirements:
+
+  * Python 3.7
+  * pipenv
+  
+Current usage:
 
 ```
-$ git clone <whatever the repo is called>
-$ cd <into that>
+$ git clone https://github.com/Perfect5th/sublimagal.git
+$ cd sublimagal
 
+$ pipenv install
 $ pipenv shell
 
-# To encode a cool message that you want your friends (??) to read:
-$ ./main.py -i inputfile.png -o outputfile.png "This is my secret, motherfucker"
+# To encode a message into a PNG
+$ ./main.py -i inputfile.png -o outputfile.png "This is a secret message"
 
-# To decode a cool message that your totally real friend made:
+# To decode a message from a PNG
 $ ./decode.py outputfile.png
-This is my secret, motherfucker
+This is a secret message
 ```
-
-Enjoy yourself and please remind me to update this README when I am sober 
-before a potential employer sees it.
