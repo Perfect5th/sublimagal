@@ -23,6 +23,7 @@ Current usage:
 $ git clone https://github.com/Perfect5th/sublimagal.git
 $ cd sublimagal
 
+$ pipenv install
 $ pipenv shell
 
 # To encode a message into a PNG
