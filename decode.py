@@ -28,16 +28,44 @@ if __name__ == '__main__':
 
     as_bits = []
 
-    for y in range(input_image.height):
-        for x in range(input_image.width):
+    size_x = 0
+    size_y = 0
+    for i in range(16):
+        pixel = input_pixels[size_x, size_y]
+        rgb = pixel[0]
+
+        as_bits.append(rgb % 2)
+
+        size_x = (size_x + 1) % input_image.width
+
+        if size_x == 0:
+            size_y = (size_y + 1) % input_image.height
+
+            if size_y == 0:
+                raise Exception("Image not large enough for embedding")
+
+    itr = get_bytes(iter(as_bits))
+    byte1 = next(itr)
+    byte2 = next(itr)
+    message_size = (byte1 << 8) + byte2
+
+    as_bits = []
+
+    for y in range(size_y, input_image.height):
+        for x in range(size_x, input_image.width):
             pixel = input_pixels[x, y]
             rgb = pixel[0]
 
             as_bits.append(rgb % 2)
 
+            if len(as_bits) >= message_size * 8:
+                break
+
+        break
+
     counter = 0
+    message = ''
     for b in get_bytes(iter(as_bits)):
-        print(chr(b))
-        counter += 1
-        if counter > 25:
-            break
+        message += chr(b)
+
+    print(message)
