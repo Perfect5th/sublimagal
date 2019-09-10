@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import argparse
+
 from PIL import Image
 
 
@@ -22,7 +24,13 @@ def get_bytes(bits):
 
 
 if __name__ == '__main__':
-    input_image = Image.open('testoutput.png')
+    parser = argparse.ArgumentParser(
+        description='Decode a message embedded in a PNG')
+    parser.add_argument('input', nargs=1, type=str, help='The PNG to decode')
+
+    args = parser.parse_args()
+
+    input_image = Image.open(args.input[0])
 
     input_pixels = input_image.load()
 
